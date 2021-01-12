@@ -16,7 +16,6 @@ public class TableData {
         this.arriveData = new SimpleStringProperty(arriveData);
         this.clientID = new SimpleIntegerProperty(clientID);
     }
-
     public int getFileID() {
         return fileID.get();
     }

@@ -13,11 +13,11 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <VBox prefHeight="587.0" prefWidth="500.0"  >
+        <VBox prefHeight="587.0" prefWidth="500.0">
             <children>
                 <HBox prefHeight="182.0" prefWidth="500.0" spacing="5">
                     <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0" >
+                        <VBox prefHeight="200.0" prefWidth="100.0">
                             <children>
                                 <StackPane>
                                 <Circle fill="DODGERBLUE" radius="60.0" stroke="BLACK" strokeType="INSIDE" />
@@ -27,7 +27,7 @@
                                         </font>
                                     </Label>
                                 </StackPane>
-                                <Label fx:id="disc1" prefHeight="17.0" prefWidth="119.0" text="Available" alignment="CENTER"/>
+                                <Label fx:id="disc1" alignment="CENTER" prefHeight="17.0" prefWidth="119.0" text="Available" />
                             </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -40,7 +40,7 @@
                                         </font>
                                     </Label>
                                 </StackPane>
-                                <Label fx:id="disc2" prefHeight="17.0" prefWidth="119.0" text="Available" alignment="CENTER"/>
+                                <Label fx:id="disc2" alignment="CENTER" prefHeight="17.0" prefWidth="119.0" text="Available" />
                             </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -53,7 +53,7 @@
                                         </font>
                                     </Label>
                                 </StackPane>
-                                <Label fx:id="disc3" prefHeight="17.0" prefWidth="119.0" text="Available" alignment="CENTER"/>
+                                <Label fx:id="disc3" alignment="CENTER" prefHeight="17.0" prefWidth="119.0" text="Available" />
                             </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -66,7 +66,7 @@
                                         </font>
                                     </Label>
                                 </StackPane>
-                                <Label fx:id="disc4" prefHeight="17.0" prefWidth="119.0" text="Available" alignment="CENTER"/>
+                                <Label fx:id="disc4" alignment="CENTER" prefHeight="17.0" prefWidth="119.0" text="Available" />
                             </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -79,7 +79,7 @@
                                         </font>
                                     </Label>
                                 </StackPane>
-                                <Label fx:id="disc5" prefHeight="17.0" prefWidth="119.0" text="Available" alignment="CENTER"/>
+                                <Label fx:id="disc5" alignment="CENTER" prefHeight="17.0" prefWidth="119.0" text="Available" />
                             </children>
                         </VBox>
                     </children>
@@ -91,7 +91,7 @@
                         <TableColumn fx:id="fileID" prefWidth="115.0" text="File ID" />
                         <TableColumn fx:id="fileSize" prefWidth="128.0" text="File SIZE" />
                         <TableColumn fx:id="priorFile" prefWidth="109.0" text="Priorytet" />
-                        <TableColumn fx:id="arriveData" prefWidth="113.0" text="Arrive Data" />
+                        <TableColumn fx:id="arriveData" prefWidth="137.0" text="Arrive Data" />
                     </columns>
                 </TableView>
             </children>

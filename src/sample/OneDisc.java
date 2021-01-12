@@ -1,25 +1,33 @@
 package sample;
 
+import javafx.scene.control.Label;
+
 public class OneDisc implements Runnable {
 
-    int disk_number ;
-    boolean unused;
+    int disk_number;
     int file_size;
+    int file_id=0, client_id=0;
+    Label disc;
 
-    public OneDisc(int disk_number, boolean unused) {
+    public OneDisc(int disk_number, boolean unused, Label disc1) {
         this.disk_number = disk_number;
-        this.unused = unused;
+        this.disc = disc1;
     }
 
     @Override
     public void run() {
-        unused =false;
-        //System.out.println("DISC: "+disk_number+";\tfile_size: "+file_size);
-        try {
-            Thread.sleep((long)100*file_size);//10mb idzie jedną sekundę
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(true){
+            try {
+                if(!Controller.discs_flag[disk_number])
+                    disc.setText("C: "+client_id+" File: "+file_id);
+                Thread.sleep((long) 100 * file_size);//10mb goes 1 second
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            disc.setText("Available");
+            Controller.discs_flag[disk_number] = true;
+            file_size = 0;
         }
-        unused=true;
+
     }
 }
