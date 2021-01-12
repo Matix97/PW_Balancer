@@ -1,6 +1,9 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
+
+import java.util.Random;
 
 public class OneDisc implements Runnable {
 
@@ -18,13 +21,14 @@ public class OneDisc implements Runnable {
     public void run() {
         while(true){
             try {
-                if(!Controller.discs_flag[disk_number])
-                    disc.setText("C: "+client_id+" File: "+file_id);
-                Thread.sleep((long) 100 * file_size);//10mb goes 1 second
+                if(!Controller.discs_flag[disk_number]){
+                    Platform.runLater(() -> disc.setText("C_id: "+client_id+" F_id: "+file_id));
+                    Thread.sleep((long) 100 * file_size);//10mb goes 1 second
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            disc.setText("Available");
+            Platform.runLater(() -> disc.setText("Available" ));
             Controller.discs_flag[disk_number] = true;
             file_size = 0;
         }
