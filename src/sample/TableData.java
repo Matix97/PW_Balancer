@@ -14,13 +14,31 @@ public class TableData {
 
     public ArrayList<Integer> client_files;
 
-    public TableData(int clientID, String arriveData, int clientFileAmount, int clientFilesSize, double clientPrior    ) {
+    public Integer ilosc;
+
+    public TableData(int clientID, String arriveData, int clientFileAmount, int clientFilesSize, double clientPrior, ArrayList<Integer> client_files) {
         this.clientFileAmount = new SimpleIntegerProperty(clientFileAmount);
         this.clientFilesSize = new SimpleIntegerProperty(clientFilesSize);
         this.clientPrior = new SimpleDoubleProperty(clientPrior);
         this.arriveData = new SimpleStringProperty(arriveData);
         this.clientID = new SimpleIntegerProperty(clientID);
+        this.client_files = client_files;
+        this.ilosc = clientFileAmount;
     }
+
+    public int getClientFilesCurrentSize() {
+        return client_files.stream().mapToInt(a -> a).sum();
+    }
+
+    public int getOneClientFile() {
+        int i = 0;
+        try {
+            i = client_files.remove(0);
+        } catch (IndexOutOfBoundsException e) {
+        }
+        return i;
+    }
+
     public int getClientFileAmount() {
         return clientFileAmount.get();
     }

@@ -41,7 +41,9 @@ public class Controller implements Initializable {
     Random random = new Random();
     int client_id = 0;
 
+
     private final ObservableList<TableData> data = FXCollections.observableArrayList();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,17 +68,20 @@ public class Controller implements Initializable {
                 for (int i = 0; i < 5; i++) {//true means disc unused
                     if (discs_available[i] && data.size() != 0) {
                         try {
-                            TableData chosenFile = get_current_biggest_prior();
-                            current_client_id[i] = chosenFile.getClientID();
-                            current_file_size[i] = chosenFile.getClientFilesSize();
-                            discs_available[i] = false;
+                            UploadedFile chosenFile = get_current_biggest_prior();
+                            if(chosenFile!=null){
+                                current_client_id[i] = chosenFile.getClientID();
+                                current_file_size[i] = chosenFile.getFileSize();
+                                discs_available[i] = false;
+                            }
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
                 }
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(30);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -92,10 +97,13 @@ public class Controller implements Initializable {
                 int files_amount = random.nextInt(MAX_FILE_AMOUNT - MIN_FILE_AMOUNT) + MIN_FILE_AMOUNT;
                 long current_time = System.currentTimeMillis();
                 int files_size = 0;
+                ArrayList<Integer> files = new ArrayList<>();
                 for (int i = 0; i < files_amount; i++) {
-                    files_size += random.nextInt(MAX_FILE_SIZE - MIN_FILE_SIZE) + MIN_FILE_SIZE;
+                    int curr_file = random.nextInt(MAX_FILE_SIZE - MIN_FILE_SIZE) + MIN_FILE_SIZE;
+                    files_size += curr_file;
+                    files.add(curr_file);
                 }
-                data.add(new TableData(client_id, formatter.format(current_time), files_amount, files_size, 0.0));
+                data.add(new TableData(client_id, formatter.format(current_time), files_amount, files_size, 0.0, files));
                 //queueTable.refresh();
                 client_id++;
                 //one second wait until next client arrive
@@ -157,42 +165,57 @@ public class Controller implements Initializable {
         current_file_size[disk_number] = 0;
     }
 
-    TableData get_current_biggest_prior() throws ParseException {
+    UploadedFile get_current_biggest_prior() throws ParseException {
 
         long current_time = System.currentTimeMillis();
 
         long longest_wait = current_time - new Timestamp(formatter.parse(data.get(0).getArriveData()).getTime()).getTime();
-        for (TableData t : data)
+        int biggest_file = data.get(0).getClientFilesCurrentSize();
+        for (TableData t : data){
             if (longest_wait < current_time - new Timestamp(formatter.parse(t.getArriveData()).getTime()).getTime())
                 longest_wait = current_time - new Timestamp(formatter.parse(t.getArriveData()).getTime()).getTime();
-
-        int biggest_file = data.get(0).getClientFilesSize();
-        for (TableData t : data)
-            if (biggest_file < t.getClientFilesSize())
-                biggest_file = t.getClientFilesSize();
-
+            if (biggest_file < t.getClientFilesCurrentSize())
+                biggest_file = t.getClientFilesCurrentSize();
+        }
+        if(biggest_file==0){
+            return null;
+        }
         double max_prior = 0.0;
         TableData prior_file = data.get(0);
 
         for (TableData datum : data) {
-            double temp = count_prior(datum.getClientFilesSize(), current_time - new Timestamp(formatter.parse(datum.getArriveData()).getTime()).getTime(), longest_wait, biggest_file);
+            double temp = count_prior(datum.getClientFilesCurrentSize(),
+                    current_time - new Timestamp(formatter.parse(datum.getArriveData()).getTime()).getTime(),
+                    longest_wait, biggest_file,datum.getClientFileAmount());
             datum.setClientPrior(temp);
             if (temp > max_prior) {
                 max_prior = temp;
                 prior_file = datum;
             }
         }
-        data.remove(prior_file);
-        queueTable.refresh();
-        runLater(() -> queueTable.refresh());
-        return prior_file;
+//        for(TableData datum : data)
+//            if (datum == prior_file)
+//                datum.ilosc-=1;
+       // data.remove(prior_file);
+
+        int current_file = prior_file.getOneClientFile();
+        prior_file.ilosc-=1;
+        prior_file.setClientFileAmount(prior_file.ilosc);
+//        if(prior_file.ilosc==0)//todo
+//            data.remove(prior_file);
+        //prior_file.setClientFileAmount(prior_file.getClientFileAmount()-1);
+      //  data.add(prior_file);
+
+        return new UploadedFile(prior_file.getClientID(),current_file);
     }
 
 
-    double count_prior(int file_size, long wait_time, long MAX_WAITING, int BIGGEST_FILE) {
+    double count_prior(int file_size, long wait_time, long MAX_WAITING, int BIGGEST_FILE,int how_many) {
+        if(how_many==0)
+            return 0;
         double size = (double) (BIGGEST_FILE - file_size) / BIGGEST_FILE;
         double arrive = Math.exp(Math.pow(wait_time / (double) MAX_WAITING, 2));
-        return size + arrive;
+        return  size + arrive;//
     }
 
 }

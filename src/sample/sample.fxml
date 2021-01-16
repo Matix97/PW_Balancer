@@ -95,7 +95,7 @@
                     <columns>
                         <TableColumn fx:id="clientID" prefWidth="127.0" text="Klient ID"/>
                         <TableColumn fx:id="clientFileAmount" prefWidth="115.0" text="Ilość plików"/>
-                        <TableColumn fx:id="clientFilesSize" prefWidth="128.0" text="Łączny rozmiar "/>
+                        <TableColumn fx:id="clientFilesSize" prefWidth="128.0" text="Łączny rozmiar (MB)"/>
                         <TableColumn fx:id="clientPrior" prefWidth="109.0" text="Priorytet"/>
                         <TableColumn fx:id="arriveData" prefWidth="137.0" text="Data przybycia"/>
                     </columns>
