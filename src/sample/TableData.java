@@ -2,54 +2,59 @@ package sample;
 
 import javafx.beans.property.*;
 
-public class TableData {
-    private IntegerProperty fileID;
-    private IntegerProperty fileSize;
-    private DoubleProperty priorFile;
-    private StringProperty arriveData;
-    private IntegerProperty clientID;
+import java.util.ArrayList;
 
-    public TableData(int fileID, int fileSize, double priorFile, String arriveData, int clientID) {
-        this.fileID = new SimpleIntegerProperty(fileID);
-        this.fileSize = new SimpleIntegerProperty(fileSize);
-        this.priorFile = new SimpleDoubleProperty(priorFile);
+public class TableData {
+    private IntegerProperty clientID;
+    private StringProperty arriveData;
+    private IntegerProperty clientFileAmount;
+    private IntegerProperty clientFilesSize;
+    private DoubleProperty clientPrior;
+
+
+    public ArrayList<Integer> client_files;
+
+    public TableData(int clientID, String arriveData, int clientFileAmount, int clientFilesSize, double clientPrior    ) {
+        this.clientFileAmount = new SimpleIntegerProperty(clientFileAmount);
+        this.clientFilesSize = new SimpleIntegerProperty(clientFilesSize);
+        this.clientPrior = new SimpleDoubleProperty(clientPrior);
         this.arriveData = new SimpleStringProperty(arriveData);
         this.clientID = new SimpleIntegerProperty(clientID);
     }
-    public int getFileID() {
-        return fileID.get();
+    public int getClientFileAmount() {
+        return clientFileAmount.get();
     }
 
-    public IntegerProperty fileIDProperty() {
-        return fileID;
+    public IntegerProperty clientFileAmountProperty() {
+        return clientFileAmount;
     }
 
-    public void setFileID(int fileID) {
-        this.fileID.set(fileID);
+    public void setClientFileAmount(int clientFileAmount) {
+        this.clientFileAmount.set(clientFileAmount);
     }
 
-    public int getFileSize() {
-        return fileSize.get();
+    public int getClientFilesSize() {
+        return clientFilesSize.get();
     }
 
-    public IntegerProperty fileSizeProperty() {
-        return fileSize;
+    public IntegerProperty clientFilesSizeProperty() {
+        return clientFilesSize;
     }
 
-    public void setFileSize(int fileSize) {
-        this.fileSize.set(fileSize);
+    public void setClientFilesSize(int clientFilesSize) {
+        this.clientFilesSize.set(clientFilesSize);
     }
 
-    public double getPriorFile() {
-        return priorFile.get();
+    public double getClientPrior() {
+        return clientPrior.get();
     }
 
-    public DoubleProperty priorFileProperty() {
-        return priorFile;
+    public DoubleProperty clientPriorProperty() {
+        return clientPrior;
     }
 
-    public void setPriorFile(double priorFile) {
-        this.priorFile.set(priorFile);
+    public void setClientPrior(double clientPrior) {
+        this.clientPrior.set(clientPrior);
     }
 
     public String getArriveData() {
