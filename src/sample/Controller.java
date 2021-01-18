@@ -184,35 +184,33 @@ public class Controller implements Initializable {
         TableData prior_file = data.get(0);
 
         for (TableData datum : data) {
-            double temp = count_prior(datum.getClientFilesCurrentSize(),
-                    current_time - new Timestamp(formatter.parse(datum.getArriveData()).getTime()).getTime(),
-                    longest_wait, biggest_file,datum.getClientFileAmount());
-            datum.setClientPrior(temp);
-            if (temp > max_prior) {
-                max_prior = temp;
-                prior_file = datum;
+            if (datum.getClientFileAmount()>0){
+                double temp = count_prior(datum.getClientFilesCurrentSize(),
+                        current_time - new Timestamp(formatter.parse(datum.getArriveData()).getTime()).getTime(),
+                        longest_wait, biggest_file);
+                datum.setClientPrior(temp);
+                if (temp > max_prior) {
+                    max_prior = temp;
+                    prior_file = datum;
+                }
             }
+            else datum.setClientPrior(0);
+
         }
-//        for(TableData datum : data)
-//            if (datum == prior_file)
-//                datum.ilosc-=1;
-       // data.remove(prior_file);
 
         int current_file = prior_file.getOneClientFile();
         prior_file.ilosc-=1;
         prior_file.setClientFileAmount(prior_file.ilosc);
-//        if(prior_file.ilosc==0)//todo
+//        if(prior_file.ilosc==0)//do prezentacji lepiej widać bez usuwaia
 //            data.remove(prior_file);
-        //prior_file.setClientFileAmount(prior_file.getClientFileAmount()-1);
-      //  data.add(prior_file);
+
 
         return new UploadedFile(prior_file.getClientID(),current_file);
     }
 
 
-    double count_prior(int file_size, long wait_time, long MAX_WAITING, int BIGGEST_FILE,int how_many) {
-        if(how_many==0)
-            return 0;
+    double count_prior(int file_size, long wait_time, long MAX_WAITING, int BIGGEST_FILE) {
+
         double size = (double) (BIGGEST_FILE - file_size) / BIGGEST_FILE;
         double arrive = Math.exp(Math.pow(wait_time / (double) MAX_WAITING, 2));
         return  size + arrive;//
