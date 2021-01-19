@@ -201,8 +201,8 @@ public class Controller implements Initializable {
         int current_file = prior_file.getOneClientFile();
         prior_file.ilosc-=1;
         prior_file.setClientFileAmount(prior_file.ilosc);
-//        if(prior_file.ilosc==0)//do prezentacji lepiej widać bez usuwaia
-//            data.remove(prior_file);
+        if(prior_file.ilosc==0)//do prezentacji lepiej widać bez usuwaia
+           data.remove(prior_file);
 
 
         return new UploadedFile(prior_file.getClientID(),current_file);
